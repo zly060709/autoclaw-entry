@@ -13,13 +13,13 @@
 
 <header class="masthead">
   <div class="kicker">AutoClaw 创造力挑战 第六期 · 赛道二 金融投研 · 作品底稿</div>
-  <h1>五份年报、200 页起，先统一口径再谈数字</h1>
-  <p class="lede">让 AutoClaw 从年度报告里提取财务数据，但把"口径定义"和"页码出处"作为硬性前置条件。产出的不是一张表，而是一份能被抽查、能被反驳、能被别人接着用的投研底稿。</p>
+  <h1>五份年报、1,342 页，先统一口径再谈数字</h1>
+  <p class="lede">标的换成真实公司：京东方A（000725）2021—2025 五份年度报告，巨潮资讯网原版 PDF，合计 1,342 页。让 AutoClaw 从中提取九项指标，但把"口径定义"和"页码出处"作为硬性前置条件。产出的不是一张表，而是一份能被抽查、能被反驳、能被别人接着用的投研底稿。</p>
   <dl class="ledger">
     <div><dt>任务类型</dt><dd>财报整理 <em>／ 数据看板 · 估值测算</em></dd></div>
-    <div><dt>工具</dt><dd>AutoClaw 桌面端 · 文件与数据整理</dd></div>
-    <div><dt>数据源</dt><dd>公开年度报告 <em>（巨潮资讯网／公司官网）</em></dd></div>
-    <div><dt>本页数据</dt><dd id="src-mode">示例样本，待替换为真实公司</dd></div>
+    <div><dt>工具</dt><dd>AutoClaw 桌面端 v2.3.0 · GLM-5.3-Flash · 完全访问权限</dd></div>
+    <div><dt>数据源</dt><dd>巨潮资讯网官方年报 PDF <em>（5 份 / 1,342 页）</em></dd></div>
+    <div><dt>本页数据</dt><dd id="src-mode">京东方A（000725）2021—2025 年报 · AutoClaw 提取，45 项已独立复算</dd></div>
   </dl>
 </header>
 
@@ -42,17 +42,17 @@
 <section id="f1">
   <h2>01 任务背景</h2>
   <p class="h2sub">投委会要的是能拿去问的数，不是一个看起来很全的表。</p>
-  <p>要在一周内对一家制造业公司形成初步判断，手上有连续五年的年度报告 PDF，每份两百页往上。人工做的做法是打开"主要财务数据"章节，一个数一个数抄进 Excel，再回头对口径——很多坑就在这：同一年"营业收入"和"总收入"能差出一个其他业务收入，"归母净利润"和"净利润"差着少数股东损益。</p>
+  <p>要在一周内对一家重资产制造业公司形成初步判断，手上有连续五年的年度报告 PDF，最短一份 227 页，最长一份 300 页。人工做的做法是打开"主要财务数据"章节，一个数一个数抄进 Excel，再回头对口径——很多坑就在这：京东方这五年正好踩中三次会计政策变更，同一年"营业收入"能有两个版本（2021 年原披露 2,193.10 亿，2022 年报重述后 2,210.36 亿），"归母净利润"和"净利润"差着少数股东损益（2022 年一个是 75.51 亿，一个是 −17.37 亿）。</p>
   <p>所以这个任务里，模型负责<strong>取数与对齐</strong>，人负责<strong>定口径与抽查</strong>。取数快但不留出处，等于没做。</p>
   <div class="claim">
-    <div><h4>交付物</h4><p>统一口径的五年数据底稿（含年报页码）· 趋势与结构图 · 三情景估值区间 · 抽查核验记录。</p></div>
+    <div><h4>交付物</h4><p>指标口径定义表 · 统一口径的五年 CSV 底稿（45 行，含年报页码与表名）· 趋势与结构图 · 三情景估值区间 · 抽查核验记录。</p></div>
     <div><h4>验收标准</h4><p>任意一个数字，能在 30 秒内翻到年报原文那一页。做不到就退回重取。</p></div>
   </div>
 </section>
 
 <section id="f2">
   <h2>02 使用过程与指令</h2>
-  <p class="h2sub">四条指令按顺序发，第二条之前必须先有第一条的口径表。</p>
+  <p class="h2sub">四条指令按顺序发，第二条之前必须先有第一条的口径表。下面每一段都是实际发出去的原文；指令 2 前面还夹了一条我对方口径的书面确认，那条才是让取数稳定的关键。</p>
   <ol class="flow">
     <li><b>先要口径定义，再要数</b><span>让模型输出每个指标的取数口径（用哪张报表、是否含少数股东、是否含其他业务），并列出五年年报中该字段出现的章节页码。这一步人工确认后再往下。</span></li>
     <li><b>提数，强制带出处</b><span>每个数值后面必须跟"年报 + 页码 + 表名"。给不出处的数值一律视为无效，不接受"根据公开信息"这类表述。</span></li>
@@ -68,6 +68,19 @@
 列：口径定义（写明取自哪张报表的哪一行，是否含少数股东损益、是否含其他业务收入）｜五年是否口径一致｜若不一致，写明从哪一年开始变化及原因（会计政策变更/报表列报调整）。
 不确定的写"需人工确认"，不要猜。</pre>
   </div>
+  <p style="font-size:13px;color:var(--ink-2)">模型这一轮的完整输出（10,980 字节，含口径表、八条政策变更清单、取数版本建议、六项需人工确认）原样存档：<a href="assets/fin-koujing.md" download>指标口径定义表.md · 模型导出原件</a>。下面指令 1.5 的六条决定，就是逐条对着这份文件拍的。</p>
+
+  <h3><span class="n">指令 1.5</span>把口径拍板回给模型</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 口径确认</b><button class="copy">复制</button></div>
+    <pre>先确认你列的六项人工确认，按下面口径执行：
+1. 2021 年取 2022 年报重述后数；2022 年归母与扣非取 2023 年报重述后数；2023 年营业成本取 2024 年报重述后数。出处写重述所在的那份年报与页码，同时保留原披露数一列。
+2. 毛利率按各年合并利润表营业收入与营业成本自行计算，保留两位小数，并在出处列注明"推算值"；2021—2022 无质保费用重述版本，直接标注口径断裂。
+3. 研发费用率＝利润表"研发费用"行／营业收入，费用化口径。
+4. 应收账款周转天数若年报未直接披露，填"未披露"，不要自己用附注余额推算。
+5. 前五大客户占比用当年原披露收入作分母，标注与重述后收入存在基期不一致。</pre>
+  </div>
+  <p style="font-size:13px;color:var(--ink-2)">模型在口径表末尾列了六项「需人工确认」，其中「应收账款周转天数的计算约定」它给了三个选项（365／360、平均／期末、是否含应收票据与应收款项融资）。我没有挑一个约定让它算，而是直接定成"年报没披露就写未披露，不要用附注余额自己推"。结果这一列五年全空——我事后用关键词扫了五份 PDF 全文，"周转天数"确实一次都没出现，所以这个空是挣来的，不是漏的。</p>
 
   <h3><span class="n">指令 2</span>带出处的数据提取</h3>
   <div class="script" data-script>
@@ -97,12 +110,14 @@
 每个假设必须写明依据：来自在手订单披露、行业增速、产能爬坡计划或历史均值，并附出处页码。
 列出可比公司清单及各自 PE 取值区间，注明取值日期与数据来源。假设与结论分开陈述。</pre>
   </div>
+  <p style="font-size:13px;color:var(--ink-2)"><strong>指令 4 本轮没有发出。</strong>原因是项目里只有五份年报 PDF，模型拿不到行情与可比公司市值；这条指令要成立，得先把同花顺 iFinD 或 Wind 的取值截图放进项目目录。第 04 节因此按"历史数据来自模型、假设参数由人定"来摆，PE 一列单独说明来源缺口。</p>
 
   <div class="slot">
     <span class="tag">证据位 01</span>
-    <p class="file">assets/img/fin-01.png ～ fin-03.png</p>
-    <p class="how">待补：① 口径定义表输出界面；② 带页码的提数结果（表格前 10 行）；③ 交叉核验发现的口径漂移或异常提示。三张图对应上面指令 1／2／3。</p>
-    <img src="assets/img/fin-01.png" alt="AutoClaw 提数与核验输出" onerror="this.remove()">
+    <p class="file">assets/img/fin-01.jpg ～ fin-02.jpg</p>
+    <p class="how">AutoClaw 桌面端 v2.3.0 · 金融分析场景 · 项目「京东方A五年年报」· 模型 GLM-5.3-Flash · 完全访问权限开启。指令 1、1.5、2、3 均按上文原样发出，未改写措辞。三轮实测消耗 725 积分（2,654 → 1,929）：口径轮 215、提数轮 218、自检轮 292；自检轮界面显示耗时 8m41s，前两轮界面已折叠，只保留产物落盘时间 00:43 与 01:00。</p>
+    <figure><img src="assets/img/fin-01.jpg" alt="指令 1 输出的指标口径定义表" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 1 · 00:43 — 九项指标的口径表 + 八条会计政策变更清单 + 六项需人工确认，全程一个数值都没取</figcaption></figure>
+    <figure><img src="assets/img/fin-02.jpg" alt="指令 2 导出的 CSV 与应用内表格预览" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 2 · 01:00 — 模型自写 build_csv.py（+144 行）导出 45 行 CSV，右侧为应用内表格预览；2021 年那一行已经是重述后的 2,210.36 亿</figcaption></figure>
   </div>
 </section>
 
@@ -112,10 +127,11 @@
 
   <div class="tool" style="padding:16px 18px 6px">
     <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px">
-      <span class="st demo" id="mode-tag">示例数据</span>
-      <span style="font-size:12.5px;color:var(--ink-2)">把 AutoClaw 提取出的真实数值填进格子，出处页码不能空。</span>
-      <span style="margin-left:auto;display:flex;gap:8px">
-        <button class="copy" id="btn-demo" style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);background:var(--sheet-2);color:var(--ink-2);padding:4px 10px;border-radius:2px;cursor:pointer">载入示例</button>
+      <span class="st ok" id="mode-tag">真实提取 · 已独立复核</span>
+      <span style="font-size:12.5px;color:var(--ink-2)">数值为 AutoClaw 按第 02 节口径提取、我独立复算一致的五年数据；格子可直接改，改完标签会变黄提醒重核。</span>
+      <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <a href="assets/fin-extract.csv" download style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);padding:4px 10px;border-radius:2px">下载模型导出原件 CSV</a>
+        <button class="copy" id="btn-demo" style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);background:var(--sheet-2);color:var(--ink-2);padding:4px 10px;border-radius:2px;cursor:pointer">还原为提取值</button>
         <button class="copy" id="btn-clear" style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);background:var(--sheet-2);color:var(--ink-2);padding:4px 10px;border-radius:2px;cursor:pointer">清空待填</button>
       </span>
     </div>
@@ -130,6 +146,8 @@
       </table>
     </div>
   </div>
+
+  <p style="font-size:12.5px;color:var(--ink-2);margin-top:10px">模型导出的原件是 45 行（九项指标 × 五年），这里只把五项画进图和表；扣非归母、研发费用绝对额、前五大客户占比与"原披露数"对照列都在 CSV 里。两件事值得注意：<strong>2021 年那一整行取的是 2022 年报里的重述后对比数</strong>，2022 年的归母、2023 年的营业成本同理，所以出处指向的是"下一份年报"；<strong>应收账款周转天数五年全部未披露</strong>，CSV 里整列留空，没有用附注余额凑一个数。</p>
 
   <div class="figs" id="figs"></div>
 
@@ -159,27 +177,29 @@
     </p>
   </div>
   <div class="sheet tight">
-    <h4>可比公司取值</h4>
-    <p style="font-size:13.5px;color:var(--ink-2)">PE 取值须写明取值日期与来源（如 Wind／同花顺 iFinD 截图，或年报披露的同行业可比公司清单）。本页示例仅列结构，实际取值待填。</p>
+    <h4>这一节的假设是谁定的，说清楚</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">增速与净利率两列不是我拍脑袋：近三年营收同比 −2.17%／+13.66%／+3.13%，均值 4.9%；归母净利率 1.46%／2.68%／2.86%，均值 2.3%；低点参照 2022 年（−19.28%、1.46%）。这三组数来自第 03 节同一张表，可复算。</p>
+    <p style="font-size:13.5px;color:var(--ink-2);margin-top:10px"><strong>PE 三档（20／25／30）是我人工设定的占位区间，没有行情来源。</strong>AutoClaw 这次只喂了五份年报 PDF，拿不到实时市值与可比公司报价，所以指令 4 要求的"可比公司清单及各自 PE 取值区间、取值日期与来源"这一项，本轮没有产出，也不该由模型编。要落地必须自己接 Wind／同花顺 iFinD 的截图，或按年报披露的同行业可比公司清单取值并写明日期。</p>
   </div>
 </section>
 
 <section id="f5">
   <h2>05 抽查核验记录</h2>
-  <p class="h2sub">抽了什么、抽出了什么问题，比"已核验"三个字有用得多。</p>
+  <p class="h2sub">45 行提取值，30 个有源数值逐个回到所指 PDF 页面扫描比对，5 项推算值另找年报独立披露对撞，5 项未披露去全文检索确认。结果：<strong>数值零处不符，页码 30/30 命中</strong>。但抓出三件必须人拍板的事，其中一件是我自己算错、模型对——见第 2 行。</p>
   <div class="tool" style="padding:16px 18px 6px">
     <div style="overflow-x:auto">
-      <table id="audit" style="min-width:720px">
-        <thead><tr><th>抽查项</th><th>模型给出的值</th><th>年报原文值 · 页码</th><th>结果</th><th>处理</th></tr></thead>
+      <table id="audit" style="min-width:900px;table-layout:fixed">
+        <thead><tr><th style="width:10%">抽查项</th><th style="width:20%">模型给出的值</th><th style="width:25%">年报原文值 · 页码</th><th style="width:9%">结果</th><th style="width:36%">处理</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
+    <p style="font-size:12.5px;color:var(--ink-3);margin-top:10px">"年报原文值"一列全部来自我用 pymupdf 写的独立提取脚本（tmp/fin_extract.py），与模型走的是两条互不引用的路径；页码同为 PDF 物理页。</p>
   </div>
   <div class="slot">
     <span class="tag">证据位 02</span>
-    <p class="file">assets/img/fin-04.png</p>
-    <p class="how">待补：一张最能说明问题的截图——模型取错口径或漏披露的那一条，和你回到年报原文核对的画面。有这一张，第 05 节就不是自述流程。</p>
-    <img src="assets/img/fin-04.png" alt="年报原文核对画面" onerror="this.remove()">
+    <p class="file">assets/img/fin-03.jpg</p>
+    <p class="how">指令 3 的自检输出：上方是口径漂移 9 对的表尾（扣非归母 2022、营业成本 2023 两行可见，重述前后两个值与各自页码并列），中段是"关联披露漂移"——2024 年报把 2023 年研发投入对比数从 125.63 亿改成 113.63 亿、资本化从 21.00 亿改成 0.44 亿，未说明原因；下方是总结论与模型自写的 checks.py（+52 行）。右侧为 CSV 原件的应用内表格预览。这一轮 2026-11-07 01:07—01:15，8 分 41 秒。</p>
+    <img src="assets/img/fin-03.jpg" alt="指令 3 三项自检输出与口径漂移清单" loading="lazy">
   </div>
 </section>
 
@@ -187,18 +207,19 @@
   <h2>06 复用方法与局限</h2>
   <div class="claim">
     <div><h4>方法可以直接搬</h4>
-      <p>① 先口径后取数，两轮分开发指令，比一次到位的准确率高；② 强制"页码 + 表名"出处，是把核验成本从小时级压到分钟级最有效的一条；③ 明确禁止用研报补数和用相邻年推算，未披露就写未披露。</p></div>
+      <p>① 先口径后取数，两轮分开发：口径轮只花 215 积分、一个数不取，换来提数轮 45 项里 0 处口径误用；② 强制"页码 + 表名"出处：30 个有源数值逐个回到所指 PDF 页面扫描，全部命中，核验成本从小时级压到分钟级；③ 明确禁止用研报补数、禁止用相邻年推算：年报没披露的就留空，这一条直接决定了第 03 节那一列敢空着。</p></div>
     <div><h4>仍需人工</h4>
-      <p>① 追溯调整造成的跨年数值打架，模型会各报一遍而不判断以哪个为准；② 合并范围变化（新设子公司、处置业务）对同比增速的影响；③ 研发费用资本化比例的口径差异；④ 可比公司 PE 的取值时点与剔除亏损样本，仍要人定。</p></div>
+      <p>① "主要会计数据"表的<strong>调整前／调整后双列</strong>是最容易抓错的地方——我自己的复算脚本第一版就把 2022 扣非抓成调整前 −22.29 亿，模型给的是调整后 −22.38 亿，这次是模型对、我错；② 2021—2022 年没有质保费用重述版本，毛利率五年严格可比做不到，只能标注断裂；③ 2024 年报把 2023 年研发投入对比数从 125.63 亿改成 113.63 亿、未说明原因，这类"披露口径变化无解释"要人回原文判断；④ 可比公司 PE 要外部行情，本轮模型拿不到，只能人工补。</p></div>
   </div>
-  <p style="margin-top:16px;font-size:13.5px;color:var(--ink-2)">换一家公司要改的地方只有三处：口径表里的报表行名、年份列、可比公司清单。指令模板不动。</p>
+  <p style="margin-top:16px;font-size:13.5px;color:var(--ink-2)">换一家公司要改的地方只有三处：口径表里的报表行名、年份列、可比公司清单。四条指令模板不动——指令 1 和 1.5 是全套可复用的，指令 1.5 里那六条决定要按新公司重新拍一遍。</p>
 </section>
 
 <section id="f7">
   <h2>07 数据源与声明</h2>
   <div class="sheet tight">
-    <p style="font-size:13.5px">数据来源为上市公司公开披露的年度报告（巨潮资讯网／公司官网下载）。页码以官方 PDF 版本为准，不同版本可能存在页码偏移，核对时以表格名称定位。</p>
-    <p style="font-size:13.5px;margin-top:10px">本页当前展示为示例结构数据，用于说明工作流与产出形态，<strong>不构成任何投资建议</strong>；填入真实数据后，结论仍须经独立复核后方可用于决策。</p>
+    <p style="font-size:13.5px">数据来源：京东方科技集团股份有限公司（000725）2021—2025 年年度报告，巨潮资讯网下载的原版 PDF（227～300 页／份，合计 1,342 页）。<strong>页码一律指 PDF 物理页码</strong>，与年报印刷页码不同——财务报表部分从"第 9 页"重新起排，例如 2024 年报合并利润表在 PDF 第 108 页、页脚印的是"108"，而"主要会计数据"在 PDF 第 11 页。核对时以页面上方表格名称定位，不靠页脚数字。</p>
+    <p style="font-size:13.5px;margin-top:10px">第 03 节数值由 AutoClaw 于 2026-11-07 00:43—01:15 三轮运行按第 02 节口径提取（产物落盘与界面时间一致）；第 05 节的"年报原文值"是我用 pymupdf 逐页独立复算的结果，两者对照见 <a href="assets/fin-extract.csv" download>模型导出原件 CSV</a>。所有数字均为上市公司已披露历史财务数据。</p>
+    <p style="font-size:13.5px;margin-top:10px">本页<strong>不构成任何投资建议</strong>。第 04 节情景与 PE 为人工设定的测算演示，其中 PE 无行情来源；据此得出的任何结论须经独立复核后方可用于决策。</p>
   </div>
   <p style="margin-top:18px;font-size:13.5px">配套文件：<a href="index.html">← 返回作品总览</a> ｜ <a href="legal.html">赛道一 · 增资协议条款对比</a></p>
 </section>
