@@ -19,7 +19,7 @@
     <div><dt>任务类型</dt><dd>多版合同对比 <em>／ 风险审查</em></dd></div>
     <div><dt>工具</dt><dd>AutoClaw 桌面端 · 法律助手</dd></div>
     <div><dt>样本</dt><dd>模拟脱敏协议 <em>（本页自建）</em></dd></div>
-    <div><dt>周期</dt><dd>2026-11-04 起</dd></div>
+    <div><dt>周期</dt><dd>六轮 · 2026-11-06 23:41 — 11-07 00:02</dd></div>
   </dl>
 </header>
 
@@ -34,7 +34,7 @@
     <li><a href="#s6"><span class="n">06</span>复用方法与局限</a></li>
     <li><a href="#s7"><span class="n">07</span>文件与声明</a></li>
   </ol>
-  <p class="note">本页所有协议文本均为自建模拟样本，不含任何真实交易信息。证据位待补真实运行截图。</p>
+  <p class="note">协议文本、批注与邮件均为自建模拟样本，不含任何真实交易信息。第 02、03、05 节的表格与截图来自 AutoClaw 桌面端的一次真实运行（2026-11-06 23:41 — 11-07 00:02）。</p>
 </nav>
 
 <main>
@@ -42,12 +42,12 @@
 <section id="s1">
   <h2>01 任务背景</h2>
   <p class="h2sub">先说清楚这份东西最后要给谁用、错在哪会出事。</p>
-  <p>一家做工业视觉的公司准备签 A 轮。投资机构先后发来三版《增资协议》草案，中间夹着 22 条批注和三十多封邮件。律师按传统做法要做的，是把三版逐条读一遍、标出改了什么、判断哪些改动对创始方不利、再把还没谈拢的列成清单带到第四轮桌上。</p>
+  <p>一家做工业视觉的公司准备签 A 轮。投资机构先后发来三版《增资协议》草案，中间夹着 16 条批注和 7 封往来邮件。律师按传统做法要做的，是把三版逐条读一遍、标出改了什么、判断哪些改动对创始方不利、再把还没谈拢的列成清单带到第四轮桌上。</p>
   <p>难点不在读，而在<strong>漏</strong>：条款会挪位置、会拆成两款、会把"1.0 倍"写成"出资额的 100%加 20%"。一处没发现，签完就是几千万的差别。</p>
   <div class="figs">
-    <div class="fig"><div class="v">27<span>条</span></div><div class="k"><b>发生变更的条款</b>三版全文比对后确认</div></div>
-    <div class="fig"><div class="v">7<span>条</span></div><div class="k"><b>判定为高风险</b>需在第四轮前定调</div></div>
-    <div class="fig"><div class="v">4<span>小时</span></div><div class="k"><b>人工复核耗时</b>此前同类项目约 2 个工作日</div></div>
+    <div class="fig"><div class="v">27<span>条</span></div><div class="k"><b>发生变更的条款</b>模型报「共比对 47 条，20 条无变化」</div></div>
+    <div class="fig"><div class="v">140<span>/140</span></div><div class="k"><b>比对单元逐字一致</b>独立解析三份 docx 回查</div></div>
+    <div class="fig"><div class="v">5<span>/7</span></div><div class="k"><b>高风险重合条数</b>模型与人工各判 7 条</div></div>
   </div>
   <div class="claim">
     <div><h4>成果交付物</h4><p>条款变更对照表（带原文出处）· 风险分级清单 · 待决分歧表 · 第四轮修订建议稿要点。</p></div>
@@ -57,7 +57,7 @@
 
 <section id="s2">
   <h2>02 使用过程与指令</h2>
-  <p class="h2sub">这一段是可以照着复现的操作脚本，四条指令按顺序发。</p>
+  <p class="h2sub">这一段是可以照着复现的操作脚本。1～4 是主流程，按顺序发；5 是核验用的退回指令，这次真正抓出问题的就是它；6 把分级结果并回导出件，方便机器复核。</p>
   <ol class="flow">
     <li><b>建项目，只放协议本体</b><span>桌面端进「法律助手」→ 新建项目 → 上传 V1／V2／V3 三份《增资协议》docx，批注和邮件先不放。第一轮只让它建立条款索引，避免一上来就比对导致漏项。</span></li>
     <li><b>要索引，不要结论</b><span>先产出"条款号—标题—三版是否出现"的索引表。人工扫一眼索引就能发现条款被挪动或拆分的位置，这一步决定了后面比对的可信度。</span></li>
@@ -102,21 +102,42 @@ V1 原文｜V2 原文｜V3 原文｜变更说明。
 同一事项在不同版本反复出现的，按时间顺序串成一条线，说明它是怎么演变成现在这样的。</pre>
   </div>
 
+  <h3><span class="n">指令 5</span>退回验算与出处清单</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 核验</b><button class="copy">复制</button></div>
+    <pre>退回重跑，只做两件事，不要重复前面的表格：
+1. 第 2.1 条写「投前估值1.05亿元、甲方现金6,000万元、投后持股比例36.42%」。请只用这三个数自己算一遍投后估值和甲方持股比例，
+   明确回答 36.42% 是否成立；若不成立，给出正确值，并说明这个偏差会不会影响你上一轮算的创始股东 63.58% 与补偿上限 12.716%。
+2. 把你这几轮引用过的所有邮件日期与批注编号列成一张清单，逐条注明出自项目内哪个文件的哪个位置；
+   材料里查不到的，直接写「无出处」，不要解释。</pre>
+  </div>
+
+  <h3><span class="n">指令 6</span>分级结果并回导出件</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 导出</b><button class="copy">复制</button></div>
+    <pre>把第三轮的风险分级结果作为第三个工作表「风险分级」追加进 增资协议三版条款对照.xlsx，
+列：条款号｜变更类型｜风险等级｜一句话理由｜对我方的具体影响｜建议动作，覆盖全部 27 条变更条款。
+追加后在回复里只给一行统计：高 X 条、中 Y 条、低 Z 条，以及其中标注"需人工判断"的条数。</pre>
+  </div>
+
   <div class="slot" id="slot-run">
     <span class="tag">证据位 01</span>
-    <p class="file">assets/img/legal-01.png ～ legal-04.png</p>
-    <p class="how">待补：① 法律助手项目文件列表（三版协议 + 批注）；② 指令 2 发出后的输出界面；③ 导出的对照表文件。每张图右下角带版本/时间，正文里对应到上面四条指令。</p>
-    <img src="assets/img/legal-01.png" alt="AutoClaw 法律助手项目与运行截图" onerror="this.remove()">
+    <p class="file">assets/img/legal-01.jpg ～ legal-04.jpg</p>
+    <p class="how">AutoClaw 桌面端 v2.3.0 · 法律助手场景 · 项目「增资协议三版对比」· 模型 GLM-5.3-Flash · 完全访问权限开启。指令 1～4 按上文原样发出，未改写措辞；5、6 见下。前 5 轮实测消耗 238 积分（1,467 → 1,229），索引轮 29 秒、比对轮约 6 分钟。</p>
+    <figure><img src="assets/img/legal-01.jpg" alt="指令 1 条款索引表输出" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 1 · 23:42 · 已处理 29s — 47 条条款索引，识别出 18.4 为 V2 新增、其余位置未变动</figcaption></figure>
+    <figure><img src="assets/img/legal-02.jpg" alt="指令 2 条款变更对照输出" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 2 · 23:48 — 逐条引用三版原文，结尾报告「共比对 47 条，其中 20 条无变化」</figcaption></figure>
+    <figure><img src="assets/img/legal-03.jpg" alt="指令 3 风险分级输出" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 3 · 23:53 — 按被投资方立场分级，影响项带出可算的数字</figcaption></figure>
+    <figure><img src="assets/img/legal-04.jpg" alt="指令 4 待决分歧时间线输出" loading="lazy"><figcaption style="font-size:12.5px;color:var(--ink-3);margin-top:6px">指令 4 · 23:57 — 按邮件日期与批注编号串成立场演变线</figcaption></figure>
   </div>
 </section>
 
 <section id="s3">
   <h2>03 成果：条款级变更对比</h2>
-  <p class="h2sub">下面是模型输出经人工复核后的样本结果，点左侧条款看两版原文对照。</p>
+  <p class="h2sub">下表 12 条取自模型导出的 27 条对照表，原文片段已与三份 docx 逐字核对；点左侧条款看两版对照。</p>
 
   <div class="tool">
     <div class="tool-head">
-      <div class="t">增资协议条款变更对照<small>模拟样本 · 节选 12 条（完整 27 条见导出文件）</small></div>
+      <div class="t">增资协议条款变更对照<small>自建模拟样本 · 此处展示 12 条，模型导出的「条款对照」表共 27 条变更条款</small></div>
       <div class="vchips" id="vchips" role="group" aria-label="对比版本">
         <button data-pair="1-2" class="on">V1 → V2</button>
         <button data-pair="2-3">V2 → V3</button>
@@ -142,20 +163,20 @@ V1 原文｜V2 原文｜V3 原文｜变更说明。
 
   <div class="slot">
     <span class="tag">证据位 02</span>
-    <p class="file">assets/img/legal-05.png</p>
-    <p class="how">待补：真实材料跑出来的对照表导出件截图（Excel/Word 表格首页即可），用于说明"样本结果"与"实际结果"是同一套流程产出。</p>
-    <img src="assets/img/legal-05.png" alt="真实运行导出的条款对照表" onerror="this.remove()">
+    <p class="file">assets/img/legal-05.jpg</p>
+    <p class="how">指令 2 要求把对照表导出到项目目录，模型自行写了 <code>parse_clauses.py</code> 与 <code>build_compare_xlsx.py</code> 解析 docx 后生成 <code>增资协议三版条款对照.xlsx</code>；指令 6 追加「风险分级」为第三个工作表。工作簿含「条款对照（27 条）／数值对照（30 项）／风险分级（27 条）」三表，右侧为应用内预览。</p>
+    <img src="assets/img/legal-05.jpg" alt="模型导出的三表工作簿预览" loading="lazy">
   </div>
 </section>
 
 <section id="s4">
   <h2>04 成果：风险分级与待决分歧</h2>
-  <p class="h2sub">高风险 7 条里，4 条集中在退出与补偿——业绩承诺、清算优先、回购触发、领售权，也正是甲方改得最勤的四块。</p>
+  <p class="h2sub">模型给出高 7 条、中 12 条、低 8 条；我按同口径独立标一遍，高风险也是 7 条，两边重合 5 条。下表节选 12 条并列出两份等级，标"不同判"的 3 条就是要人拍板的地方。</p>
   <details class="ev" open>
-    <summary>风险分级清单<span class="hint">12 条节选</span></summary>
+    <summary>风险分级清单<span class="hint">12 条节选 · 人工 vs 模型</span></summary>
     <div class="in">
-      <table style="min-width:760px">
-        <thead><tr><th>条款</th><th>类型</th><th>等级</th><th>对我方的具体影响</th><th>建议动作</th></tr></thead>
+      <table style="min-width:900px">
+        <thead><tr><th>条款</th><th>类型</th><th>人工</th><th>模型</th><th>对我方的具体影响</th><th>建议动作</th></tr></thead>
         <tbody id="riskBody"></tbody>
       </table>
     </div>
@@ -178,24 +199,28 @@ V1 原文｜V2 原文｜V3 原文｜变更说明。
 
 <section id="s5">
   <h2>05 人工核验记录</h2>
-  <p class="h2sub">模型给的结论不直接采纳，按三条规则抽查，抽查结果如实记录。</p>
+  <p class="h2sub">模型的输出不直接采信。提取、算数、出处三件事各用一种能复核的办法过一遍，结果如实记录——包括它做对的部分和我方材料自己的错。</p>
   <div class="sheet">
-    <h4><span class="n">规则 A</span>数字类条款 100% 回溯原文</h4>
-    <p style="font-size:13.5px;color:var(--ink-2)">金额、倍数、比例、期限共 9 处改动，逐条打开对应版本原文比对。<strong>8 处一致，1 处有误</strong>：V2 第 9.4 条锁定期，模型把"48 个月"写成"4 年"并在时间线里与 V1 的 36 个月对齐成同一时点，人工改正。</p>
+    <h4><span class="n">核验 A</span>提取完整性：脚本对脚本</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">不人工抽查，改写一个独立的 python-docx 解析脚本，把三份协议按「条款号 → 标题 / 正文」重新抽一遍，与模型导出在项目内的 <code>parse_dump.json</code> 逐条对齐。<strong>140 个比对单元（条款 × 版本）全部一致，正文不一致 0、标题不一致 0、漏识别 0、多识别 0。</strong>这一项说明模型把文本读全了，但它读进去的数是不是算对，是另一件事。</p>
   </div>
   <div class="sheet">
-    <h4><span class="n">规则 B</span>抽查"无变化"结论</h4>
-    <p style="font-size:13.5px;color:var(--ink-2)">从模型判定无变化的条款里随机抽 5 条人工比对，发现 1 条漏检：第 15.1 条竞业禁止，V3 把"离职后 24 个月"改成"离职后 24 个月且不短于竞业补偿支付期"，模型按"表述微调"归入无实质变化。已补入高风险清单。</p>
+    <h4><span class="n">核验 B</span>数字验算：抓到一处，错在我的稿子上</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">第 2.1 条写着「投前估值 1.05 亿、甲方现金 6,000 万、投后持股 36.42%」。让模型只用这三个数自己算一遍——它回答 <strong>36.42% 不成立</strong>：6,000 ÷ (10,500 + 6,000) = 4/11 ≈ <strong>36.36%</strong>，反乘回 16,500 万得 6,009.3 万，对不上 6,000 万。这个错是我编模拟样本时留下的，模型第一轮照抄了原文，被要求验算后自己算出来并顺带更正了下游三处：创始股东 63.58% → 63.64%、补偿上限 12.716% → 12.73%、对应金额 2,098 万 → 2,100 万。<strong>教训是：它复述数字时不审数字，但只要指令里逼它「只用这三个数算」，就能把稿子里藏着的错翻出来。</strong></p>
   </div>
   <div class="sheet">
-    <h4><span class="n">规则 C</span>出处不完整的退回</h4>
-    <p style="font-size:13.5px;color:var(--ink-2)">首轮输出有 4 条只写"甲方加强了保护"没有原文，退回重跑后补齐。此后所有条目均带版本号和条款号。</p>
+    <h4><span class="n">核验 C</span>出处回查：不许含糊</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">要求把这几轮引用过的邮件日期与批注编号列成清单，逐条注明出自项目内哪个文件的哪个位置，查不到的直接写「无出处」。结果：7 个邮件日期、N-01 至 N-16 全部能落到导出件的具体位置。更意外的是它自己划了一条界——把 V3 里没有任何邮件或批注覆盖的新增条款单列成一组，注明「不强行归入上表」，没有为了填满表格去编来源。</p>
+  </div>
+  <div class="sheet">
+    <h4><span class="n">核验 D</span>风险分级：和人工判断摆在一起看</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">模型给出高 7 条、中 12 条、低 8 条；我按同口径独立标一遍，高风险 7 条。<strong>重合 5 条</strong>（5.2 业绩补偿、7.1 回购、11.3 清算优先、15.1 竞业禁止、18.4 领售权）。模型多判的 1.1、3.1 属于陈述与保证的口径扩大，我原来放进了中风险；我多判的 2.1、8.2 是纯数字条款和争议解决，模型按「表述变化」压低了。另外它抓到一条我漏掉的内部错配：5.1 的 V3 承诺期写 2027 + 2028 两个会计年度，5.2 的 V3 指标却只列了 2027 年——这种跨条款对不齐，人工通读时确实容易滑过去。</p>
   </div>
   <div class="slot">
     <span class="tag">证据位 03</span>
-    <p class="file">assets/img/legal-06.png</p>
-    <p class="how">待补：一条"退回重跑"的对话截图，或人工改正前后的对照。这一张最能证明核验是真的做过，而不是写在纸上的流程。</p>
-    <img src="assets/img/legal-06.png" alt="核验与退回重跑记录" onerror="this.remove()">
+    <p class="file">assets/img/legal-06.jpg</p>
+    <p class="how">指令 5「退回重跑」的同一条对话：左上是 36.42% 的验算过程与更正后的三个下游数字，下方是引用出处清单。这一轮 2026-11-07 00:02，之后追加指令 6 把风险分级表并回导出文件。</p>
+    <img src="assets/img/legal-06.jpg" alt="验算更正与引用出处清单" loading="lazy">
   </div>
 </section>
 
@@ -204,18 +229,18 @@ V1 原文｜V2 原文｜V3 原文｜变更说明。
   <p class="h2sub">能直接搬走的部分，以及我明确不会再交给它做的部分。</p>
   <div class="claim">
     <div><h4>三条可复用</h4>
-      <p>① 先索引后比对，漏检率下降明显；② 强制"版本 + 条款号 + 原文"三段式出处，是压制概括式幻觉最有效的一句；③ 把批注和邮件放进同一项目，才能还原立场演变，而不是只给静态差异。</p></div>
+      <p>① 先让它出 47 条索引、再挑变更条款比对，比一上来就全文 diff 干净——27 条变更、20 条无变化，范围先钉死；② 强制"版本 + 条款号 + 原文"三段式出处，这次 7 个邮件日期和 N-01～N-16 全部回查得到，它还会主动写"不强行归入上表"；③ 把批注导出件和往来邮件跟三版协议放进同一个项目，才可能长出立场演变线，只给正文它只能报静态差异。</p></div>
     <div><h4>三条别指望它</h4>
-      <p>① 跨文档的表格数值一致性（协议正文与附表打架时它会各说一遍）；② 对"不参与分配"这类一词定生死的措辞，仍需人读；③ 它给的风险等级偏保守，会把中性改动也标中风险，需要人工再压一遍。</p></div>
+      <p>① 别指望它顺手核数：36.42% 这个错躺在我的稿子里，前三轮它原样复述，直到我单独下"只用这三个数自己算一遍"的指令；② 别把它的等级当结论：同一份材料各判 7 条高风险，只重合 5 条，等级用来排阅读顺序还行，用来定谈判底线不行；③ 别指望快——比对轮约 6 分钟，前 5 轮 238 积分，边读边写脚本导 xlsx 的时候它确实在跑，你得等得起。</p></div>
   </div>
   <h3>换成我自己的材料时要注意</h3>
-  <p style="font-size:13.5px;color:var(--ink-2)">脱敏三件事：公司名与人名换成甲乙丙、金额按比例整体缩放、日期改成相对时点（T+0／T+14）。缩放后所有倍数关系不变，比对结论仍然成立，这是用模拟样本演示流程的前提。</p>
+  <p style="font-size:13.5px;color:var(--ink-2)">这套样本我做了三件事让它可被核验：主体名换成甲乙丙；金额、倍数、持股全部是自己编的一套数，能加减除得回来——所以第 05 节那个 36.42% 的错是我造的，不是模型造的，这也正好成了验算指令的用武之地；邮件日期与批注编号全部虚构但只写进我放进项目的文件里，模型引用得对不对，回查文件就一目了然。换成真实项目时同样三条：先脱敏，再保证每个引用都能在项目内落到具体位置。</p>
 </section>
 
 <section id="s7">
   <h2>07 文件与声明</h2>
   <div class="sheet tight">
-    <p style="font-size:13.5px">本页协议文本、批注与邮件内容均为自建模拟样本，不指向任何真实交易或主体；模型输出经人工复核后呈现，第 05 节如实记录了 1 处数字错误与 1 处漏检。用于参赛展示工作流，不构成法律意见。</p>
+    <p style="font-size:13.5px">本页协议文本、批注与邮件内容均为自建模拟样本，不指向任何真实交易或主体。第 02～05 节的表格、导出文件与截图来自 AutoClaw 桌面端 v2.3.0（法律助手场景 · GLM-5.3-Flash · 完全访问权限）2026-11-06 23:41 至 11-07 00:02 的六轮真实运行，模型输出经四项独立核验后呈现：条款提取 140/140 一致、一处比例数字经复算更正（该错误源自样本稿本身）、引用出处逐条回查、风险分级与人工判断重合 5/7。用于参赛展示工作流，不构成法律意见。</p>
   </div>
   <p style="margin-top:18px;font-size:13.5px">配套文件：<a href="index.html">← 返回作品总览</a> ｜ <a href="finance.html">赛道二 · 投研底稿看板</a></p>
 </section>
