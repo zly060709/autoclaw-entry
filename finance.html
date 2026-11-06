@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-accent="fin">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>年报到投研底稿：五年财务数据提取、口径统一与估值测算 · AutoClaw 底稿</title>
+<meta name="description" content="用 AutoClaw 把多份年度报告整理成统一口径的投研底稿：字段口径表、带页码的数据提取、抽查核验记录与三情景估值测算，数据可自行填写并实时重算。">
+<link rel="stylesheet" href="assets/base.css">
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="kicker">AutoClaw 创造力挑战 第六期 · 赛道二 金融投研 · 作品底稿</div>
+  <h1>五份年报、200 页起，先统一口径再谈数字</h1>
+  <p class="lede">让 AutoClaw 从年度报告里提取财务数据，但把"口径定义"和"页码出处"作为硬性前置条件。产出的不是一张表，而是一份能被抽查、能被反驳、能被别人接着用的投研底稿。</p>
+  <dl class="ledger">
+    <div><dt>任务类型</dt><dd>财报整理 <em>／ 数据看板 · 估值测算</em></dd></div>
+    <div><dt>工具</dt><dd>AutoClaw 桌面端 · 文件与数据整理</dd></div>
+    <div><dt>数据源</dt><dd>公开年度报告 <em>（巨潮资讯网／公司官网）</em></dd></div>
+    <div><dt>本页数据</dt><dd id="src-mode">示例样本，待替换为真实公司</dd></div>
+  </dl>
+</header>
+
+<div class="body-grid">
+<nav class="rail" aria-label="章节">
+  <ol id="rail">
+    <li><a href="#f1"><span class="n">01</span>任务背景</a></li>
+    <li><a href="#f2"><span class="n">02</span>使用过程与指令</a></li>
+    <li><a href="#f3"><span class="n">03</span>底稿数据与趋势</a></li>
+    <li><a href="#f4"><span class="n">04</span>三情景估值测算</a></li>
+    <li><a href="#f5"><span class="n">05</span>抽查核验记录</a></li>
+    <li><a href="#f6"><span class="n">06</span>复用方法与局限</a></li>
+    <li><a href="#f7"><span class="n">07</span>数据源与声明</a></li>
+  </ol>
+  <p class="note">第 03、04 节的数字全部可编辑，改动即时重算；填写内容存在本机浏览器，不上传任何服务器。</p>
+</nav>
+
+<main>
+
+<section id="f1">
+  <h2>01 任务背景</h2>
+  <p class="h2sub">投委会要的是能拿去问的数，不是一个看起来很全的表。</p>
+  <p>要在一周内对一家制造业公司形成初步判断，手上有连续五年的年度报告 PDF，每份两百页往上。人工做的做法是打开"主要财务数据"章节，一个数一个数抄进 Excel，再回头对口径——很多坑就在这：同一年"营业收入"和"总收入"能差出一个其他业务收入，"归母净利润"和"净利润"差着少数股东损益。</p>
+  <p>所以这个任务里，模型负责<strong>取数与对齐</strong>，人负责<strong>定口径与抽查</strong>。取数快但不留出处，等于没做。</p>
+  <div class="claim">
+    <div><h4>交付物</h4><p>统一口径的五年数据底稿（含年报页码）· 趋势与结构图 · 三情景估值区间 · 抽查核验记录。</p></div>
+    <div><h4>验收标准</h4><p>任意一个数字，能在 30 秒内翻到年报原文那一页。做不到就退回重取。</p></div>
+  </div>
+</section>
+
+<section id="f2">
+  <h2>02 使用过程与指令</h2>
+  <p class="h2sub">四条指令按顺序发，第二条之前必须先有第一条的口径表。</p>
+  <ol class="flow">
+    <li><b>先要口径定义，再要数</b><span>让模型输出每个指标的取数口径（用哪张报表、是否含少数股东、是否含其他业务），并列出五年年报中该字段出现的章节页码。这一步人工确认后再往下。</span></li>
+    <li><b>提数，强制带出处</b><span>每个数值后面必须跟"年报 + 页码 + 表名"。给不出处的数值一律视为无效，不接受"根据公开信息"这类表述。</span></li>
+    <li><b>交叉核验</b><span>用第二来源（如业绩快报、招股说明书或券商研报）比对同一指标，差异超过 1% 的单独列出并说明原因。</span></li>
+    <li><b>最后才做测算</b><span>看板与估值只在数据被确认后生成，参数（增速、倍数）单独列出，便于别人换假设重跑。</span></li>
+  </ol>
+
+  <h3><span class="n">指令 1</span>口径定义表</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 口径</b><button class="copy">复制</button></div>
+    <pre>项目内有公司 2021—2025 年年度报告。先不要提取任何数值。
+输出指标口径定义表，行：营业收入｜归母净利润｜扣非归母净利润｜销售毛利率｜经营活动现金流净额｜研发费用｜研发费用率｜应收账款周转天数｜前五大客户收入占比。
+列：口径定义（写明取自哪张报表的哪一行，是否含少数股东损益、是否含其他业务收入）｜五年是否口径一致｜若不一致，写明从哪一年开始变化及原因（会计政策变更/报表列报调整）。
+不确定的写"需人工确认"，不要猜。</pre>
+  </div>
+
+  <h3><span class="n">指令 2</span>带出处的数据提取</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 提数</b><button class="copy">复制</button></div>
+    <pre>按已确认的口径表，逐年提取上述指标，输出 CSV 结构：年份｜指标｜数值｜单位｜年报名称｜页码｜原文表格名称。
+要求：
+1. 每个数值必须有页码，且页码指向"合并利润表/合并资产负债表/主要会计数据"这类具体表格，不接受只写"年报第3页"；
+2. 金额统一为亿元、比率统一为百分数，单位列写明换算前原单位；
+3. 某年某指标在年报中未披露的，填"未披露"，不要用相邻年数据推算，也不要用券商研报补数；
+4. 结尾报告：共提取 N 个数值，其中 M 个未披露、K 个口径跨年不一致。</pre>
+  </div>
+
+  <h3><span class="n">指令 3</span>交叉核验与异常提示</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 核验</b><button class="copy">复制</button></div>
+    <pre>对提取结果做三项自检并输出结论：
+1. 勾稽关系：归母净利润与扣非净利润之差、毛利率与营收成本是否自洽；
+2. 趋势异常：单年同比变动超过 30% 的指标，逐条给出年报中管理层讨论与分析的原文解释，并标注页码；
+3. 口径漂移：同一指标在不同年份年报中数值不一致的（如追溯调整），列出两个值与各自页码，说明以哪个为准及理由。
+只报事实与出处，不要给投资建议。</pre>
+  </div>
+
+  <h3><span class="n">指令 4</span>测算参数</h3>
+  <div class="script" data-script>
+    <div class="sh"><b>prompt · 测算</b><button class="copy">复制</button></div>
+    <pre>基于已核验数据，给出三情景（保守／基准／乐观）的下一年度营收增速、毛利率与净利率假设，
+每个假设必须写明依据：来自在手订单披露、行业增速、产能爬坡计划或历史均值，并附出处页码。
+列出可比公司清单及各自 PE 取值区间，注明取值日期与数据来源。假设与结论分开陈述。</pre>
+  </div>
+
+  <div class="slot">
+    <span class="tag">证据位 01</span>
+    <p class="file">assets/img/fin-01.png ～ fin-03.png</p>
+    <p class="how">待补：① 口径定义表输出界面；② 带页码的提数结果（表格前 10 行）；③ 交叉核验发现的口径漂移或异常提示。三张图对应上面指令 1／2／3。</p>
+    <img src="assets/img/fin-01.png" alt="AutoClaw 提数与核验输出" onerror="this.remove()">
+  </div>
+</section>
+
+<section id="f3">
+  <h2>03 底稿数据与趋势</h2>
+  <p class="h2sub">下面这张表就是交付物本体：可直接改，改完图与测算同步重算。</p>
+
+  <div class="tool" style="padding:16px 18px 6px">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px">
+      <span class="st demo" id="mode-tag">示例数据</span>
+      <span style="font-size:12.5px;color:var(--ink-2)">把 AutoClaw 提取出的真实数值填进格子，出处页码不能空。</span>
+      <span style="margin-left:auto;display:flex;gap:8px">
+        <button class="copy" id="btn-demo" style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);background:var(--sheet-2);color:var(--ink-2);padding:4px 10px;border-radius:2px;cursor:pointer">载入示例</button>
+        <button class="copy" id="btn-clear" style="font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);background:var(--sheet-2);color:var(--ink-2);padding:4px 10px;border-radius:2px;cursor:pointer">清空待填</button>
+      </span>
+    </div>
+    <div style="overflow-x:auto">
+      <table id="grid" style="min-width:720px">
+        <thead><tr>
+          <th>年份</th><th class="num">营业收入<br>亿元</th><th class="num">归母净利润<br>亿元</th>
+          <th class="num">毛利率<br>%</th><th class="num">经营现金流净额<br>亿元</th>
+          <th class="num">研发费用率<br>%</th><th>出处（年报 · 页码）</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="figs" id="figs"></div>
+
+  <div class="sheet">
+    <h4><span class="n">图 A</span>营收与归母净利润</h4>
+    <div id="chart-a"></div>
+  </div>
+  <div class="sheet">
+    <h4><span class="n">图 B</span>毛利率与研发费用率</h4>
+    <div id="chart-b"></div>
+  </div>
+  <p style="font-size:12.5px;color:var(--ink-3);margin-top:12px">图由上表实时生成，未使用任何外部图表库；表中留空的年份不参与绘制。</p>
+</section>
+
+<section id="f4">
+  <h2>04 三情景估值测算</h2>
+  <p class="h2sub">假设与结论分开摆，换假设就能重跑，这是给别人复用的关键。</p>
+  <div class="tool" style="padding:16px 18px 18px">
+    <div style="overflow-x:auto">
+      <table id="val" style="min-width:720px">
+        <thead><tr><th>情景</th><th>关键假设（可编辑）</th><th class="num">下年营收增速 %</th><th class="num">净利率 %</th><th class="num">PE 倍数</th><th class="num">隐含估值 亿元</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-3);margin-top:12px">
+      隐含估值 = 最新有数年份营收 × (1 + 增速) × 净利率 ÷ 100 × PE。口径为可比公司法，未做流动性、控制权溢价调整。
+    </p>
+  </div>
+  <div class="sheet tight">
+    <h4>可比公司取值</h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">PE 取值须写明取值日期与来源（如 Wind／同花顺 iFinD 截图，或年报披露的同行业可比公司清单）。本页示例仅列结构，实际取值待填。</p>
+  </div>
+</section>
+
+<section id="f5">
+  <h2>05 抽查核验记录</h2>
+  <p class="h2sub">抽了什么、抽出了什么问题，比"已核验"三个字有用得多。</p>
+  <div class="tool" style="padding:16px 18px 6px">
+    <div style="overflow-x:auto">
+      <table id="audit" style="min-width:720px">
+        <thead><tr><th>抽查项</th><th>模型给出的值</th><th>年报原文值 · 页码</th><th>结果</th><th>处理</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="slot">
+    <span class="tag">证据位 02</span>
+    <p class="file">assets/img/fin-04.png</p>
+    <p class="how">待补：一张最能说明问题的截图——模型取错口径或漏披露的那一条，和你回到年报原文核对的画面。有这一张，第 05 节就不是自述流程。</p>
+    <img src="assets/img/fin-04.png" alt="年报原文核对画面" onerror="this.remove()">
+  </div>
+</section>
+
+<section id="f6">
+  <h2>06 复用方法与局限</h2>
+  <div class="claim">
+    <div><h4>方法可以直接搬</h4>
+      <p>① 先口径后取数，两轮分开发指令，比一次到位的准确率高；② 强制"页码 + 表名"出处，是把核验成本从小时级压到分钟级最有效的一条；③ 明确禁止用研报补数和用相邻年推算，未披露就写未披露。</p></div>
+    <div><h4>仍需人工</h4>
+      <p>① 追溯调整造成的跨年数值打架，模型会各报一遍而不判断以哪个为准；② 合并范围变化（新设子公司、处置业务）对同比增速的影响；③ 研发费用资本化比例的口径差异；④ 可比公司 PE 的取值时点与剔除亏损样本，仍要人定。</p></div>
+  </div>
+  <p style="margin-top:16px;font-size:13.5px;color:var(--ink-2)">换一家公司要改的地方只有三处：口径表里的报表行名、年份列、可比公司清单。指令模板不动。</p>
+</section>
+
+<section id="f7">
+  <h2>07 数据源与声明</h2>
+  <div class="sheet tight">
+    <p style="font-size:13.5px">数据来源为上市公司公开披露的年度报告（巨潮资讯网／公司官网下载）。页码以官方 PDF 版本为准，不同版本可能存在页码偏移，核对时以表格名称定位。</p>
+    <p style="font-size:13.5px;margin-top:10px">本页当前展示为示例结构数据，用于说明工作流与产出形态，<strong>不构成任何投资建议</strong>；填入真实数据后，结论仍须经独立复核后方可用于决策。</p>
+  </div>
+  <p style="margin-top:18px;font-size:13.5px">配套文件：<a href="index.html">← 返回作品总览</a> ｜ <a href="legal.html">赛道一 · 增资协议条款对比</a></p>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p class="back">AutoClaw 创造力挑战第六期 · 赛道二 金融投研 · 作品底稿</p>
+  <p>静态页面，数据与图表逻辑在 assets/finance.js，可离线打开；填写内容仅保存在本机浏览器 localStorage。</p>
+</footer>
+
+</div>
+<script src="assets/app.js"></script>
+<script src="assets/finance.js"></script>
+</body>
+</html>
