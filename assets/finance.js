@@ -1,25 +1,29 @@
 /* 投研底稿：可编辑数据 → 实时图表与测算 · 存本机 localStorage */
-var KEY="autoclaw-fin-draft-v1";
+var KEY="autoclaw-fin-draft-v2";
 var DEMO={
  years:["2021","2022","2023","2024","2025"],
  rows:[
-  {rev:"7.4",np:"0.8",gm:"27.3",ocf:"0.6",rd:"5.8",src:"2021年报 · 合并利润表 P91"},
-  {rev:"9.9",np:"1.3",gm:"28.6",ocf:"1.1",rd:"6.1",src:"2022年报 · 合并利润表 P91"},
-  {rev:"13.0",np:"1.9",gm:"30.1",ocf:"1.7",rd:"6.4",src:"2023年报 · 合并利润表 P92"},
-  {rev:"15.1",np:"2.4",gm:"31.0",ocf:"2.2",rd:"6.6",src:"2024年报 · 合并利润表 P93"},
-  {rev:"18.6",np:"3.0",gm:"31.4",ocf:"2.8",rd:"6.8",src:"2025年报 · 合并利润表 P94"}
+  {rev:"2210.36",np:"259.61",gm:"28.84",ocf:"626.99",rd:"4.80",src:"2022年报 合并利润表 P103／P104（2021 重述后列）"},
+  {rev:"1784.14",np:"75.41",gm:"11.70",ocf:"430.22",rd:"6.22",src:"2022年报 P103／P109 · 归母取 2023年报 P110（重述后）"},
+  {rev:"1745.43",np:"25.47",gm:"11.50",ocf:"383.02",rd:"6.49",src:"2023年报 P109／P115 · 成本取 2024年报 P108（解释18号重述）"},
+  {rev:"1983.81",np:"53.23",gm:"15.20",ocf:"477.38",rd:"6.62",src:"2024年报 合并利润表 P108／P109 · 现金流 P114"},
+  {rev:"2045.90",np:"58.57",gm:"15.64",ocf:"488.25",rd:"6.76",src:"2025年报 合并利润表 P100／P101 · 现金流 P104"}
  ],
  scen:[
-  {name:"保守",note:"行业装机增速回落、毛利率承压",g:"12",nm:"14",pe:"18"},
-  {name:"基准",note:"在手订单正常交付，毛利率维持",g:"20",nm:"16",pe:"22"},
-  {name:"乐观",note:"海外产能爬坡，收入结构改善",g:"28",nm:"17",pe:"26"}
+  {name:"保守",note:"面板价格进入下行段，参照 2022 年 −19.3% 与净利率 1.46% 的低点",g:"0",nm:"1.5",pe:"20"},
+  {name:"基准",note:"取近三年营收增速均值 4.9%、归母净利率均值 2.3%",g:"5",nm:"2.5",pe:"25"},
+  {name:"乐观",note:"参照 2024 年 +13.7% 的补涨年份，毛利率回到 15% 以上",g:"12",nm:"3.5",pe:"30"}
  ],
  audit:[
-  {item:"2023 营业收入",mv:"13.0 亿元",rv:"13.0 亿元（合并利润表 P92）",st:"d",res:"一致",act:"直接采用"},
-  {item:"2024 归母净利润",mv:"2.40 亿元",rv:"2.36 亿元（主要会计数据 P8）",st:"m",res:"差异 1.7%",act:"模型误取含少数股东口径，退回重取后以合并利润表为准"},
-  {item:"2022 毛利率",mv:"28.6%",rv:"28.6%（合并利润表 P91）",st:"d",res:"一致",act:"—"},
-  {item:"2025 研发费用率",mv:"6.8%",rv:"年报仅披露研发费用金额，未直接披露比率",st:"w",res:"需换算",act:"按研发费用／营业收入推算，并在底稿注明为推算值"},
-  {item:"2021 经营现金流净额",mv:"0.6 亿元",rv:"0.6 亿元（合并现金流量表 P95）",st:"d",res:"一致",act:"—"}
+  {item:"2021 营业收入",mv:"2,210.36 亿<br>（2022年报 P103 重述后列）",rv:"221,035,718,012 元 · 2022年报 合并利润表 P103<br>2021年报自披露 2,193.10 亿 · P116",st:"d",res:"一致",act:"按已确认口径取重述后值；原披露数保留在 CSV「原披露数」列"},
+  {item:"2022 扣非归母",mv:"−22.38 亿<br>（2023年报 P11 调整后列）",rv:"同一页双列：调整前 −22.29 亿／调整后 −22.38 亿",st:"h",res:"模型对 · 我错",act:"我第一版复算脚本抓了「调整前」列，判成 −22.29。改判以调整后为准——这一页的列名顺序是这套底稿最容易翻车的地方"},
+  {item:"2022 归母同比",mv:"−70.95%（采出口径）<br>并注年报披露 −70.91%",rv:"−70.91% · 2022年报 P10 增减列，分母是 2021 年调整后 25,960,751,646",st:"m",res:"基期不同",act:"0.04pp 差在取数版本不在算术；底稿统一用重述后基期，避免两种同比混用"},
+  {item:"2023 销售毛利率",mv:"11.50%<br>（按 2024年报 P108 重述成本推算）",rv:"12.55% · 2023年报 P18 直销行披露，对应成本 152,633,061,367 元",st:"m",res:"两个都对",act:"解释 18 号只重述到 2023，2021—2022 没有可比版本。不判对错，标口径断裂，趋势图分段解读"},
+  {item:"五年毛利率（推算）",mv:"28.84／11.70／11.50／15.20／15.64%",rv:"年报 MD&A 直销行独立披露：28.87%（2021 P19）·11.70%（2022 P16）·12.55%（2023 P18）·15.20%（2024 P18）·15.64%（2025 P20）",st:"d",res:"一致",act:"推算值与披露值对撞，除 2021（重述基）与 2023（重述成本）外逐位相同，这条自检最硬"},
+  {item:"归母 − 扣非",mv:"18.93／97.80／31.80／14.86／16.27 亿",rv:"各年报第二节「非经常性损益项目及金额」合计行，元位逐笔相等",st:"d",res:"一致",act:"勾稽通过；2025 年报另在附注明细表内部勾平（小计 − 所得税影响 − 少数股东影响）"},
+  {item:"应收账款周转天数",mv:"未披露 × 5",rv:"五份 PDF 全文检索「周转天数」0 命中",st:"l",res:"一致留空",act:"没有挑一个计算约定凑数。要用这一项得先定 365／360、平均／期末、是否含应收票据与应收款项融资"},
+  {item:"2023 研发投入（关联披露）",mv:"口径轮即报出「2024 年报调减 2023 对比数且未说明原因」",rv:"125.63 亿、资本化 21.00 亿（2023年报 P24）→ 113.63 亿、资本化 0.44 亿（2024年报 P24）",st:"m",res:"披露无解释",act:"本轮用利润表「研发费用」行（五年口径一致）绕开；若改用「研发投入」口径，此处必须人工裁定"},
+  {item:"30 个有源数值的页码",mv:"每行都给 PDF 页码 + 表名",rv:"逐行回到所指 PDF 页面扫描金额字符串比对",st:"d",res:"30/30 命中",act:"页码一律是 PDF 物理页，与页脚印刷页不同（见第 07 节），核对时以表格名称定位"}
  ]
 };
 var EMPTY={
@@ -33,6 +37,7 @@ function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}c
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 function num(v){var n=parseFloat(String(v).replace(/[,，\s]/g,""));return isNaN(n)?null:n;}
 function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function br(s){return esc(s).replace(/&lt;br&gt;/g,"<br>");}
 
 var grid=document.querySelector("#grid tbody"),val=document.querySelector("#val tbody"),aud=document.querySelector("#audit tbody");
 
@@ -72,11 +77,11 @@ function paintVal(){
 }
 function paintAud(){
   if(!aud)return;
-  if(!S.audit.length){aud.innerHTML='<tr><td colspan="5" style="color:var(--ink-3);font-size:12.5px">尚无记录 — 点右上「载入示例」看结构，或把你实际抽查的条目填进来。</td></tr>';return;}
+  if(!S.audit.length){aud.innerHTML='<tr><td colspan="5" style="color:var(--ink-3);font-size:12.5px">尚无记录 — 点右上「还原为提取值」回到本次运行结果，或把你实际抽查的条目填进来。</td></tr>';return;}
   var L={d:"一致",m:"有差异",w:"需处理"};
   aud.innerHTML=S.audit.map(function(a){
-    return "<tr><td>"+esc(a.item)+"</td><td class=\"num\">"+esc(a.mv)+"</td><td>"+esc(a.rv)+"</td>"+
-      '<td><span class="lvl '+esc(a.st)+'">'+(L[a.st]||esc(a.res))+"</span></td><td>"+esc(a.act)+"</td></tr>";
+    return "<tr><td>"+esc(a.item)+"</td><td>"+br(a.mv)+"</td><td>"+br(a.rv)+"</td>"+
+      '<td><span class="lvl '+esc(a.st)+'">'+esc(a.res||L[a.st]||'—')+"</span></td><td>"+esc(a.act)+"</td></tr>";
   }).join("");
 }
 
@@ -109,9 +114,9 @@ function recalc(){
     td.textContent=(rev==null||g==null||nm==null||pe==null)?"—":(rev*(1+g/100)*(nm/100)*pe).toFixed(1);
   });
   var tag=document.getElementById("mode-tag"),src=document.getElementById("src-mode");
-  var isDemo=JSON.stringify(S)===JSON.stringify(DEMO);
-  if(tag){tag.textContent=isDemo?"示例数据（虚构，待替换）":"已编辑（请核对出处）";tag.className="st "+(isDemo?"demo":"todo");}
-  if(src)src.textContent=isDemo?"示例样本，待替换为真实公司":"见第 03 节出处列";
+  var isReal=JSON.stringify(S)===JSON.stringify(DEMO);
+  if(tag){tag.textContent=isReal?"真实提取 · 已独立复核":"已编辑（请重核出处）";tag.className="st "+(isReal?"ok":"warn");}
+  if(src)src.textContent=isReal?"京东方A（000725）2021—2025 年报 · AutoClaw 提取，45 项已独立复算":"见第 03 节出处列 · 内容已被本地编辑";
 }
 
 /* SVG 图 */
